@@ -18,7 +18,7 @@ class CustomersController < ApplicationController
                               .paginate(page: params[:page], per_page: 10)
       end
     elsif params[:search]
-      @customers = Customer.where("first_name LIKE ? OR last_name LIKE ? OR email LIKE ?", "%#{params[:search].downcase}%", "%#{params[:search].downcase}%", "%#{params[:search].downcase}%").paginate(page: params[:page], per_page: 10)
+      @customers = Customer.where("concat(first_name, ' ', last_name) LIKE ? OR email LIKE ?", "%#{params[:search].downcase}%", "%#{params[:search].downcase}%").paginate(page: params[:page], per_page: 10)
     else
       @customers = Customer.all
                             .sort_by(&:last_name)
