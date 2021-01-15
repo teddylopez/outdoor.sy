@@ -1,0 +1,69 @@
+<h2>Customers</h2>
+<hr>
+
+<div class="row">
+  <div>
+    <form class="autosubmit">
+      <label for="vehicle-filter-form">Vehicle Type:</label>
+      <%= select_tag :vehicle_type, options_for_select(@vehicle_options), class: "button" %>
+    </form>
+  </div>
+
+  <div>
+    <%= form_tag customers_path, method: "get" do %>
+      <%= text_field_tag :search, params[:search], class: 'search-input', placeholder: "search users..." %>
+      <button type="submit" class="button">Search</button>
+    <% end %>
+  </div>
+</div>
+
+<table class="center-table">
+  <thead>
+    <tr>
+      <th>First name</th>
+      <th>Last name</th>
+      <th>Email</th>
+      <th>Vehicle type</th>
+      <th>Vehicle name</th>
+      <th>Vehicle length (ft.)</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @customers.each do |customer| %>
+      <tr data-link="<%= customer_path(customer) %>" class="clickable-row">
+        <td><%= titleize_name(customer.first_name) %></td>
+        <td><%= titleize_name(customer.last_name) %></td>
+        <td><%= customer.email %></td>
+        <td><%= titleize_name(customer.vehicle_type) %></td>
+        <td><%= titleize_name(customer.vehicle_name) %></td>
+        <td><%= format_length(customer.vehicle_length_ft) %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<div class="pagination-container">
+  <%= will_paginate @customers %>
+</div>
+
+<br>
+
+<button class="button">
+  <%= link_to 'New Customer', new_customer_path %>
+</button>
+
+<hr class="section-break">
+
+<h2>Import New Customers</h2>
+<hr>
+
+<div class="section">
+  <%= form_tag import_customers_path, multipart: true do %>
+    <%= file_field_tag :file, :required => true %>
+    <br>
+    <br>
+    <%= submit_tag "Upload Customers" %>
+  <% end %>
+</div>

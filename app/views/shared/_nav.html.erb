@@ -1,0 +1,11 @@
+<% if current_user %>
+  <header id="main-navigation">
+    <a class="brand" href="/">outdoor.sy</a>
+    <nav>
+      <% if user_signed_in? %>
+        <%= current_user.email %>
+        <%= link_to "sign out", destroy_user_session_path(@user), method: :delete %>
+      <% end %>
+    </nav>
+  </header>
+<% end %>

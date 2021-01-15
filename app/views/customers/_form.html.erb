@@ -1,0 +1,55 @@
+<div class="form-container">
+  <%= form_with(model: customer, local: true) do |form| %>
+    <% if customer.errors.any? %>
+      <div id="error_explanation">
+        <h2><%= pluralize(customer.errors.count, "error") %> prohibited this customer from being saved:</h2>
+
+        <ul>
+        <% customer.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+        </ul>
+      </div>
+    <% end %>
+
+    <div class="field">
+      <%= form.label "first name *" %>
+      <%= form.text_field :first_name %>
+    </div>
+
+    <div class="field">
+      <%= form.label "last_name *" %>
+      <%= form.text_field :last_name %>
+    </div>
+
+    <div class="field">
+      <%= form.label "email *" %>
+      <%= form.text_field :email %>
+    </div>
+
+    <div class="field">
+      <%= form.label "vehicle type *" %>
+      <%= form.select :vehicle_type, @total_vehicle_options, {}, { :class => 'button' } %>
+    </div>
+
+    <div class="field">
+      <%= form.label :vehicle_name %>
+      <%= form.text_field :vehicle_name %>
+    </div>
+
+    <div class="field">
+      <%= form.label "vehicle_length (ft) *"%>
+      <%= form.text_field :vehicle_length_ft %>
+    </div>
+
+    <div class="actions">
+      <%= form.submit %>
+    </div>
+
+    <br>
+
+    <button class="button">
+      <%= link_to 'Back', customers_path %>
+    </button>
+  <% end %>
+</div>

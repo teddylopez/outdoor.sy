@@ -1,0 +1,45 @@
+<h2>Customer Details</h2>
+<hr>
+
+<div class="form-container">
+  <p>
+    <strong>First name:</strong>
+    <%= titleize_name(@customer.first_name) %>
+  </p>
+
+  <p>
+    <strong>Last name:</strong>
+    <%= titleize_name(@customer.last_name) %>
+  </p>
+
+  <p>
+    <strong>Email:</strong>
+    <%= @customer.email %>
+  </p>
+
+  <p>
+    <strong>Vehicle type:</strong>
+    <%= @customer.vehicle_type %>
+  </p>
+
+  <p>
+    <strong>Vehicle name:</strong>
+    <%= titleize_name(@customer.vehicle_name) %>
+  </p>
+
+  <p>
+    <strong>Vehicle length:</strong>
+    <%= @customer.vehicle_length_ft %>
+  </p>
+
+  <p>
+    <strong>Checked In:</strong>
+    <%= @customer.created_at %>
+  </p>
+
+  <br>
+
+  <button class="button"><%= link_to 'Edit', edit_customer_path(@customer) %></button>
+  <button class="button"><%= link_to 'Delete', @customer, method: :delete, data: { confirm: 'Are you sure?' } %></button>
+  <button class="button"><%= link_to 'Back', customers_path %></button>
+</div>
