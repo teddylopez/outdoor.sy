@@ -19,22 +19,22 @@
 
   <p>
     <strong>Vehicle type:</strong>
-    <%= @customer.vehicle_type %>
+    <%= @customer.vehicle.vehicle_type %>
   </p>
 
   <p>
     <strong>Vehicle name:</strong>
-    <%= titleize_name(@customer.vehicle_name) %>
+    <%= titleize_name(@customer.vehicle.name) %>
   </p>
 
   <p>
     <strong>Vehicle length:</strong>
-    <%= @customer.vehicle_length_ft %>
+    <%= @customer.vehicle.length %>
   </p>
 
   <p>
     <strong>Checked In:</strong>
-    <%= @customer.created_at %>
+    <%= @customer.vehicle.created_at %>
   </p>
 
   <br>

@@ -5,5 +5,7 @@ Rails.application.routes.draw do
     collection { post :import }
   end
 
+  resources :vehicles
+
   root to: 'customers#index'
 end

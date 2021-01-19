@@ -27,20 +27,22 @@
       <%= form.text_field :email %>
     </div>
 
-    <div class="field">
-      <%= form.label "vehicle type *" %>
-      <%= form.select :vehicle_type, @total_vehicle_options, {}, { :class => 'button' } %>
-    </div>
+    <%= form.fields_for :vehicle do |v| %>
+      <div class="field">
+        <%= v.label "vehicle type *" %>
+        <%= v.select :vehicle_type, @total_vehicle_options, {}, { :class => 'button' } %>
+      </div>
 
-    <div class="field">
-      <%= form.label :vehicle_name %>
-      <%= form.text_field :vehicle_name %>
-    </div>
+      <div class="field">
+        <%= v.label "vehicle name" %>
+        <%= v.text_field :name %>
+      </div>
 
-    <div class="field">
-      <%= form.label "vehicle_length (ft) *"%>
-      <%= form.text_field :vehicle_length_ft %>
-    </div>
+      <div class="field">
+        <%= v.label "vehicle_length (ft) *"%>
+        <%= v.text_field :length %>
+      </div>
+    <% end %>
 
     <div class="actions">
       <%= form.submit %>

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_01_14_231721) do
+ActiveRecord::Schema.define(version: 2021_01_19_213338) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -19,9 +19,6 @@ ActiveRecord::Schema.define(version: 2021_01_14_231721) do
     t.string "first_name"
     t.string "last_name"
     t.string "email"
-    t.integer "vehicle_type", default: 0
-    t.string "vehicle_name"
-    t.decimal "vehicle_length_ft", precision: 6, scale: 2
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -36,6 +33,16 @@ ActiveRecord::Schema.define(version: 2021_01_14_231721) do
     t.datetime "updated_at", null: false
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
+  end
+
+  create_table "vehicles", force: :cascade do |t|
+    t.string "name"
+    t.decimal "length", precision: 6, scale: 2
+    t.bigint "customer_id"
+    t.integer "vehicle_type", default: 0
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["customer_id"], name: "index_vehicles_on_customer_id"
   end
 
 end

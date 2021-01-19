@@ -36,9 +36,9 @@
         <td><%= titleize_name(customer.first_name) %></td>
         <td><%= titleize_name(customer.last_name) %></td>
         <td><%= customer.email %></td>
-        <td><%= titleize_name(customer.vehicle_type) %></td>
-        <td><%= titleize_name(customer.vehicle_name) %></td>
-        <td><%= format_length(customer.vehicle_length_ft) %></td>
+        <td><%= titleize_name(customer.vehicle.vehicle_type) %></td>
+        <td><%= titleize_name(customer.vehicle.name) %></td>
+        <td><%= format_length(customer.vehicle.length) %></td>
       </tr>
     <% end %>
   </tbody>

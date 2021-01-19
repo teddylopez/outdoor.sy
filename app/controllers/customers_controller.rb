@@ -5,7 +5,7 @@ class CustomersController < ApplicationController
   before_action :set_vehicle_options, only: [:edit, :new, :create, :update]
 
   def index
-    @vehicle_options = Customer.distinct.pluck(:vehicle_type).push("all").sort
+    @vehicle_options = Vehicle.distinct.pluck(:vehicle_type).push("all").sort
 
     if params[:vehicle_type]
       if params[:vehicle_type] == "all"
@@ -13,7 +13,8 @@ class CustomersController < ApplicationController
                               .sort_by(&:last_name)
                               .paginate(page: params[:page], per_page: 10)
       else
-        @customers = Customer.where(vehicle_type: params[:vehicle_type])
+        @customers = Customer.joins(:vehicle)
+                              .where(:vehicles => {:vehicle_type => params[:vehicle_type]})
                               .sort_by(&:last_name)
                               .paginate(page: params[:page], per_page: 10)
       end
@@ -36,6 +37,7 @@ class CustomersController < ApplicationController
 
   def new
     @customer = Customer.new
+    @customer.build_vehicle
   end
 
   def edit
@@ -77,10 +79,10 @@ class CustomersController < ApplicationController
     end
 
     def customer_params
-      params.require(:customer).permit(:first_name, :last_name, :email, :vehicle_type, :vehicle_name, :vehicle_length_ft)
+      params.require(:customer).permit(:first_name, :last_name, :email, vehicle_attributes: [:id, :name, :length, :vehicle_type])
     end
 
     def set_vehicle_options
-      @total_vehicle_options = Customer.vehicle_types.map{|k,v| k}
+      @total_vehicle_options = Vehicle.vehicle_types.map{|k,v| k}
     end
 end
