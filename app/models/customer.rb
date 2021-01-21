@@ -4,7 +4,7 @@ class Customer < ApplicationRecord
   before_save { first_name.downcase! }
   before_save { last_name.downcase! }
   before_save { email.downcase! }
-  has_one :vehicle
+  has_one :vehicle, :dependent => :destroy
   accepts_nested_attributes_for :vehicle
   validates_associated :vehicle
 
