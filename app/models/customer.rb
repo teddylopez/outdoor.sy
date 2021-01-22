@@ -26,12 +26,14 @@ class Customer < ApplicationRecord
         email: email
       )
 
-      Vehicle.create(
-        vehicle_type: vehicle_type.present? ? vehicle_type.downcase : nil,
-        name: vehicle_name.present? ? vehicle_name.downcase : nil,
-        length: vehicle_length_ft.to_f,
-        customer: customer
-      )
+      unless customer.id.nil?
+        Vehicle.create(
+          vehicle_type: vehicle_type.present? ? vehicle_type.downcase : nil,
+          name: vehicle_name.present? ? vehicle_name.downcase : nil,
+          length: vehicle_length_ft.to_f,
+          customer: customer
+        )
+      end
     end
   end
 
