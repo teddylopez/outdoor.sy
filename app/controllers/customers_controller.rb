@@ -1,29 +1,25 @@
 class CustomersController < ApplicationController
-  require 'will_paginate/array'
   before_action :authenticate_user!
   before_action :set_customer, only: [:show, :edit, :update, :destroy]
   before_action :set_vehicle_options, only: [:edit, :new, :create, :update]
 
   def index
     @vehicle_options = Vehicle.distinct.pluck(:vehicle_type).push("all").sort
+    @page = params[:page]
 
     if params[:vehicle_type]
       if params[:vehicle_type] == "all"
-        @customers = Customer.all
-                              .sort_by(&:last_name)
-                              .paginate(page: params[:page], per_page: 10)
+        @customers = Customer.all.includes(:vehicle)
+                              .paginate(@page)
       else
-        @customers = Customer.joins(:vehicle)
+        @customers = Customer.includes(:vehicle)
                               .where(:vehicles => {:vehicle_type => params[:vehicle_type]})
-                              .sort_by(&:last_name)
-                              .paginate(page: params[:page], per_page: 10)
+                              .paginate(@page)
       end
     elsif params[:search]
-      @customers = Customer.where("concat(first_name, ' ', last_name) LIKE ? OR email LIKE ?", "%#{params[:search].downcase}%", "%#{params[:search].downcase}%").sort_by(&:last_name).paginate(page: params[:page], per_page: 10)
+      @customers = Customer.where("concat(first_name, ' ', last_name) LIKE ? OR email LIKE ?", "%#{params[:search].downcase}%", "%#{params[:search].downcase}%").includes(:vehicle).paginate(@page)
     else
-      @customers = Customer.all
-                            .sort_by(&:last_name)
-                            .paginate(page: params[:page], per_page: 10)
+      @customers = Customer.all.includes(:vehicle).paginate(@page)
     end
   end
 

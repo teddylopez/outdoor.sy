@@ -45,7 +45,13 @@
 </table>
 
 <div class="pagination-container">
-  <%= will_paginate @customers %>
+  <%= link_to "Previous", customers_path(page: @page.to_i - 1) %> |
+
+  <% pagination_limits(Customer).each do |i| %>
+    <span class="<%= style_pagination(@page, i) %>"><%= link_to "#{i}", customers_path(page: i.to_i - 1) %> </span> |
+  <% end %>
+
+  <%= link_to "Next", customers_path(page: @page.to_i + 1) %>
 </div>
 
 <br>
