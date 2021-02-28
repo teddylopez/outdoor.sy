@@ -1,58 +1,13 @@
 <h2>Customers</h2>
 <hr>
 
-<div class="row">
-  <div>
-    <form class="autosubmit">
-      <label for="vehicle-filter-form">Vehicle Type:</label>
-      <%= select_tag :vehicle_type, options_for_select(@vehicle_options), class: "button" %>
-    </form>
-  </div>
+<%= render "customers_table_filter_options" %>
 
-  <div>
-    <%= form_tag customers_path, method: "get" do %>
-      <%= text_field_tag :search, params[:search], class: 'search-input', placeholder: "search customers..." %>
-      <button type="submit" class="button">Search</button>
-    <% end %>
-  </div>
-</div>
+<%= render "customers_table" %>
 
-<table class="center-table">
-  <thead>
-    <tr>
-      <th>First name</th>
-      <th>Last name</th>
-      <th>Email</th>
-      <th>Vehicle type</th>
-      <th>Vehicle name</th>
-      <th>Vehicle length (ft.)</th>
-      <th colspan="3"></th>
-    </tr>
-  </thead>
-
-  <tbody>
-    <% @customers.each do |customer| %>
-      <tr data-link="<%= customer_path(customer) %>" class="clickable-row">
-        <td><%= titleize_name(customer.first_name) %></td>
-        <td><%= titleize_name(customer.last_name) %></td>
-        <td><%= customer.email %></td>
-        <td><%= titleize_name(customer.vehicle.vehicle_type) %></td>
-        <td><%= titleize_name(customer.vehicle.name) %></td>
-        <td><%= format_length(customer.vehicle.length) %></td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
-
-<div class="pagination-container">
-  <%= link_to "Previous", customers_path(page: @page.to_i - 1) %> |
-
-  <% pagination_limits(Customer).each do |i| %>
-    <span class="<%= style_pagination(@page, i) %>"><%= link_to "#{i}", customers_path(page: i.to_i - 1) %> </span> |
-  <% end %>
-
-  <%= link_to "Next", customers_path(page: @page.to_i + 1) %>
-</div>
+<% if should_show_pagination(current_page, @customers) %>
+  <%= render "shared/pagination_container", model: Customer, items: @customers, page: @page %>
+<% end %>
 
 <br>
 
@@ -62,14 +17,4 @@
 
 <hr class="section-break">
 
-<h2>Import New Customers</h2>
-<hr>
-
-<div class="section">
-  <%= form_tag import_customers_path, multipart: true do %>
-    <%= file_field_tag :file, :required => true %>
-    <br>
-    <br>
-    <%= submit_tag "Upload Customers" %>
-  <% end %>
-</div>
+<%= render "upload_customers_form" %>

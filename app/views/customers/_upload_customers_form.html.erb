@@ -1,0 +1,11 @@
+<h2>Import New Customers</h2>
+<hr>
+
+<div class="section">
+  <%= form_tag import_customers_path, multipart: true do %>
+    <%= file_field_tag :file, :required => true %>
+    <br>
+    <br>
+    <%= submit_tag "Upload Customers" %>
+  <% end %>
+</div>

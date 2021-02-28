@@ -1,0 +1,15 @@
+<div class="pagination-container">
+  <% unless page.to_i == 0 %>
+    <%= link_to "←", customers_path(page: page.to_i - 1, direction: sort_direction, sort: sort_column) %>
+  <% end %>
+
+  <% pagination_limits(model).each do |i| %>
+    <span class="<%= style_pagination(page, i) %>">
+      <%= link_to "#{i}", customers_path({page: i.to_i - 1, direction: sort_direction, sort: sort_column}) %>
+    </span>
+  <% end %>
+
+  <% unless last_page(page, items) %>
+    <%= link_to "→", customers_path(page: page.to_i + 1, direction: sort_direction, sort: sort_column) %>
+  <% end %>
+</div>

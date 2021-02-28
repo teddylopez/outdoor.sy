@@ -8,7 +8,22 @@ table.center-table {
   width: 100%;
   margin: 5% auto 0 auto;
 
+  .current {
+    padding-right: 12px;
+    background-repeat: no-repeat;
+    background-position: right center;
+  }
+
+  th .asc {
+    background-image: url("up_arrow.gif");
+  }
+
+  th .desc {
+    background-image: url("down_arrow.gif");
+  }
+
   th {
+    text-decoration: underline;
     padding: 10px;
   }
 

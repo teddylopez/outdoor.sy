@@ -1,0 +1,15 @@
+<div class="row">
+  <div>
+    <form class="autosubmit">
+      <label for="vehicle-filter-form">Vehicle Type:</label>
+      <%= select_tag :vehicle_type, options_for_select(@vehicle_options), class: "button" %>
+    </form>
+  </div>
+
+  <div>
+    <%= form_tag customers_path, method: "get" do %>
+      <%= text_field_tag :search, params[:search], class: 'search-input', placeholder: "search customers..." %>
+      <button type="submit" class="button">Search</button>
+    <% end %>
+  </div>
+</div>
