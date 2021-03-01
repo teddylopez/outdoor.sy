@@ -7,31 +7,17 @@ class CustomersController < ApplicationController
   def index
     @vehicle_options = Vehicle.distinct.pluck(:vehicle_type).push("all").sort
     @page = params[:page]
+    initial_query = Customer.includes(:vehicle)
+                            .order(sort_column + " " + sort_direction)
+                            .references(:vehicle)
+                            .paginate(@page)
 
-    if params[:vehicle_type]
-      if params[:vehicle_type] == "all"
-        @customers = Customer.includes(:vehicle)
-                            .order(sort_column + " " + sort_direction)
-                            .references(:vehicle)
-                            .paginate(@page)
-      else
-        @customers = Customer.includes(:vehicle)
-                            .where(:vehicles => {:vehicle_type => params[:vehicle_type]})
-                            .order(sort_column + " " + sort_direction)
-                            .references(:vehicle)
-                            .paginate(@page)
-      end
+    if params[:vehicle_type] && params[:vehicle_type] != 'all'
+      @customers = initial_query.where(:vehicles => {:vehicle_type => params[:vehicle_type]})
     elsif params[:search]
-      @customers = Customer.includes(:vehicle)
-                            .where("concat(first_name, ' ', last_name) LIKE ? OR email LIKE ?", "%#{params[:search].downcase}%", "%#{params[:search].downcase}%")
-                            .order(sort_column + " " + sort_direction)
-                            .references(:vehicle)
-                            .paginate(@page)
+      @customers = initial_query.where("concat(first_name, ' ', last_name) LIKE ? OR email LIKE ?", "%#{params[:search].downcase}%", "%#{params[:search].downcase}%")
     else
-      @customers = Customer.includes(:vehicle)
-                            .order(sort_column + " " + sort_direction)
-                            .references(:vehicle)
-                            .paginate(@page)
+      @customers = initial_query
     end
   end
 
